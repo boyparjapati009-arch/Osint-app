@@ -19,11 +19,6 @@ const formatObject = (obj: Record<string, any>): string => {
 // Custom formatter to create a readable string from a result object
 export const formatResultToString = (result: any): string => {
   if (!result) return "No data available.";
-
-  // Handle Generated PincodeResponse first
-  if (result.Status === "Generated" && result.Message) {
-    return `--- Generated Information for Pincode Search ---\n\n${result.Message}`;
-  }
   
   // Handle CombinedDetails
   if (result.numberDetails && result.aadhaarDetails) {

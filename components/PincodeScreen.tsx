@@ -13,7 +13,6 @@ const PincodeScreen: React.FC = () => {
   const [details, setDetails] = useState<PincodeResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [generatedText, setGeneratedText] = useState<string | null>(null);
   const { history, addToHistory, clearHistory } = useHistory<PincodeResponse>('pincodeHistory');
 
   const executeSearch = useCallback(async (pincodeToSearch: string) => {
@@ -25,27 +24,14 @@ const PincodeScreen: React.FC = () => {
     setIsLoading(true);
     setError(null);
     setDetails(null);
-    setGeneratedText(null);
 
     try {
       const data = await fetchPincodeDetails(pincodeToSearch);
-      
-      // Add result to history regardless of status
+      setDetails(data);
       addToHistory({ query: pincodeToSearch, result: data });
-
-      if (data.Status === 'Success') {
-        setDetails(data);
-      } else if (data.Status === 'Generated') {
-        setGeneratedText(data.Message);
-      } else {
-        // Fallback for other non-success statuses from the API that might have slipped through
-        setError(data.Message || 'Could not find pincode details.');
-      }
     } catch (err) {
-      // This will now only catch truly unexpected errors, not API "not found" cases.
-      console.error("An unexpected error occurred during search execution:", err);
-      if (err instanceof Error) setError(err.message);
-      else setError('An unknown error occurred.');
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -58,14 +44,7 @@ const PincodeScreen: React.FC = () => {
   const handleHistoryClick = (item: HistoryItem<PincodeResponse>) => {
     setPincode(item.query);
     setError(null);
-    
-    if (item.result.Status === 'Generated' && item.result.Message) {
-      setGeneratedText(item.result.Message);
-      setDetails(null);
-    } else {
-      setDetails(item.result);
-      setGeneratedText(null);
-    }
+    setDetails(item.result);
   };
 
   const handleDownloadHistory = () => {
@@ -109,17 +88,7 @@ const PincodeScreen: React.FC = () => {
             <p className="font-medium text-red-400">{error}</p>
           </div>
         )}
-        {generatedText && !isLoading && (
-          <div className="w-full p-1 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 animate-result-appear">
-             <div className="bg-slate-800/90 backdrop-blur-sm rounded-[14px] p-6 sm:p-8">
-                <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to-slate-400">
-                  Information for Pincode: {pincode}
-                </h2>
-                <p className="text-slate-300 whitespace-pre-wrap leading-relaxed">{generatedText}</p>
-             </div>
-          </div>
-        )}
-        {details && !isLoading && !generatedText && <PincodeResultsCard details={details} />}
+        {details && !isLoading && !error && <PincodeResultsCard details={details} query={pincode} />}
       </div>
     </>
   );

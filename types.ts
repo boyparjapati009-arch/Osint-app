@@ -77,11 +77,17 @@ export interface SimInfoResponse {
 
 export interface PincodePostOffice {
   Name: string;
-  Block: string;
-  District: string;
-  State: string;
-  Pincode: string;
+  Description: string | null;
   BranchType: string;
+  DeliveryStatus: string;
+  Circle: string;
+  District: string;
+  Division: string;
+  Region: string;
+  Block: string;
+  State: string;
+  Country: string;
+  Pincode: string;
 }
 
 export interface PincodeResponse {
