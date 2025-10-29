@@ -42,8 +42,9 @@ const CombinedScreen: React.FC = () => {
       // 2. Fetch number details
       setLoadingStep(`Fetching details for ${numberToSearch}...`);
       const numberData = await fetchNumberDetails(numberToSearch);
-      if (numberData.status !== 'success' || !numberData.data) {
-        throw new Error('Could not find details for this mobile number.');
+      if (numberData.status?.toLowerCase() !== 'success' || !numberData.data || typeof numberData.data !== 'object') {
+        const errorMessage = typeof numberData.data === 'string' ? numberData.data : 'Could not find details for this mobile number.';
+        throw new Error(errorMessage);
       }
 
       // 3. Extract Aadhaar number

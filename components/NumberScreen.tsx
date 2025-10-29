@@ -25,34 +25,32 @@ const NumberScreen: React.FC<NumberScreenProps> = ({ initialQuery }) => {
       setError('Please enter a valid 10-digit mobile number.');
       return;
     }
-
+    
     setIsLoading(true);
     setError(null);
     setDetails(null);
     setIsProtected(false);
-
+    
     try {
-      // 1. Check protected list
       const protectedData = await fetchNumberProtectedList();
       if (protectedData.protected_numbers?.includes(numberToSearch)) {
         setIsProtected(true);
         return;
       }
 
-      // 2. Fetch Number details
       const data = await fetchNumberDetails(numberToSearch);
-
-      if (data.status === 'success' && data.data) {
+      
+      if (data.status === 'success') {
         setDetails(data);
         addToHistory({ query: numberToSearch, result: data });
       } else {
-        setError('No results found for this number or an API error occurred.');
+        setError(data.data as string);
         setDetails(null);
       }
     } catch (err) {
       console.error(err);
-      if (err instanceof Error) setError(err.message);
-      else setError('An unknown error occurred.');
+      const message = err instanceof Error ? err.message : 'An unknown error occurred.';
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -68,7 +66,7 @@ const NumberScreen: React.FC<NumberScreenProps> = ({ initialQuery }) => {
   const handleFormSubmit = () => {
     executeSearch(phoneNumber);
   };
-
+  
   const handleHistoryClick = (item: HistoryItem<NumberResponse>) => {
     setPhoneNumber(item.query);
     setDetails(item.result);
@@ -83,7 +81,7 @@ const NumberScreen: React.FC<NumberScreenProps> = ({ initialQuery }) => {
   return (
     <>
       <header className="text-center mb-10">
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-rose-400 to-pink-500 text-transparent bg-clip-text">
           Number Info Finder
         </h1>
         <p className="mt-3 text-lg text-slate-400">
@@ -101,7 +99,7 @@ const NumberScreen: React.FC<NumberScreenProps> = ({ initialQuery }) => {
         pattern="\d{10}"
         title="Number must be 10 digits."
       />
-      
+
       <HistoryCard
         history={history}
         onItemClick={handleHistoryClick}
@@ -109,7 +107,7 @@ const NumberScreen: React.FC<NumberScreenProps> = ({ initialQuery }) => {
         title="Recent Number Searches"
         onDownload={handleDownloadHistory}
       />
-
+      
       <div className="w-full mt-8">
         {isLoading && <Loader />}
         {error && !isLoading && (

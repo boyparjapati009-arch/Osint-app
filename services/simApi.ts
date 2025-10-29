@@ -1,11 +1,11 @@
 import { SimInfoResponse } from '../types';
 
-const PROXY_URL = 'https://cors.eu.org/';
+const PROXY_URL = 'https://api.allorigins.win/raw?url=';
 const SIM_INFO_API_BASE_URL = 'https://ph-ng-pi.vercel.app/?number=';
 
 export const fetchSimInfoDetails = async (phoneNumber: string): Promise<SimInfoResponse> => {
   const targetUrl = `${SIM_INFO_API_BASE_URL}${phoneNumber}`;
-  const response = await fetch(`${PROXY_URL}${targetUrl}`);
+  const response = await fetch(`${PROXY_URL}${encodeURIComponent(targetUrl)}`);
   if (!response.ok) {
     throw new Error(`Server responded with an error (Status: ${response.status})`);
   }

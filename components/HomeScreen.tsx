@@ -33,7 +33,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectAadhaar, onSelectNumber
         </button>
         <button
           onClick={onSelectNumber}
-          className="w-full px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+          className="w-full px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-rose-500 to-pink-500 rounded-xl shadow-lg shadow-rose-500/20 hover:shadow-xl hover:shadow-rose-500/30 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
         >
           Number Info
         </button>
@@ -41,7 +41,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectAadhaar, onSelectNumber
           onClick={onSelectSimInfo}
           className="w-full px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-500/20 hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
         >
-          Sim Info
+          SIM Info
         </button>
         <button
           onClick={onSelectPincode}
@@ -49,19 +49,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectAadhaar, onSelectNumber
         >
           Pincode Info
         </button>
-         <button
-          onClick={onSelectCombined}
-          className="sm:col-span-2 w-full px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
-        >
-          Full Profile
-        </button>
       </div>
-      <div className="mt-12">
+      <div className="mt-6 w-full max-w-md mx-auto space-y-6">
         <button
-          onClick={handleDownloadAll}
-          className="px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-slate-600 to-slate-800 rounded-xl shadow-lg shadow-slate-500/20 hover:shadow-xl hover:shadow-slate-500/30 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            onClick={onSelectCombined}
+            className="w-full px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
         >
-          Download All Search Info
+            Full Profile
+        </button>
+        <button
+            onClick={handleDownloadAll}
+            className="w-full px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl shadow-lg shadow-slate-600/20 hover:shadow-xl hover:shadow-slate-600/30 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+        >
+            Download All History
         </button>
       </div>
     </div>

@@ -13,6 +13,22 @@ export interface AadhaarDetails {
   [key: string]: any; 
 }
 
+export interface RawNumberDataItem {
+  mobile: string;
+  name: string;
+  fname: string;
+  address: string;
+  alt: string;
+  circle: string;
+  id: string;
+}
+
+export interface RawNumberApiResponse {
+  status: boolean;
+  data?: RawNumberDataItem[];
+  msg?: string;
+}
+
 export interface NumberData {
   '📱 Mobile': string;
   '👤 Name': string;
@@ -21,14 +37,14 @@ export interface NumberData {
   '📞 Alt Mobile': string;
   '📶 Circle/ISP': string;
   '🆔 Aadhar': string;
-  '✉️ Email': string;
-  [key: string]: string;
+  '✉️ Email'?: string;
+  [key: string]: string | undefined;
 }
 
 export interface NumberResponse {
   status: string;
   number: string;
-  data: NumberData;
+  data: NumberData | string;
 }
 
 export interface AadhaarProtectResponse {
